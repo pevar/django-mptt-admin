@@ -75,7 +75,10 @@ class DjangoMpttAdminMixin(object):
         if extra_context:
             context.update(extra_context)
 
-        context.update(self.admin_site.each_context(request))
+        try:
+            context.update(self.admin_site.each_context(request))
+        except ValueError:
+            context.update(self.admin_site.each_context())
 
         return TemplateResponse(
             request,
